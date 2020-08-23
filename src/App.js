@@ -9,9 +9,9 @@ class App extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            color: 'rgb(240, 91, 86)',
-            block:'rgb(254, 103, 98)',
-            addTask : 'rgb(204,77,73)',
+            color: 'rgb(240,111,174)',
+            block:'rgb(250,125,183)',
+            addTask : 'rgb(206,95,149)',
             minute : 25,
             second : '00',
             isStart: true
@@ -26,13 +26,21 @@ class App extends React.Component{
         this.setState(state => ({
             isStart: !state.isStart
         }));
+        if(this.state.isStart)
         this.timerID = setInterval(
             () => this.startT(),
             1000
         );
+        else clearInterval(this.timerID);
     }
     startT(){
         if(!'00'.localeCompare(this.state.second)){
+            if(this.state.minute < 10){
+                this.setState(state => ({
+                    minute: '0'+state.minute--,
+                    second : 59
+                }));
+            }else
             this.setState(state => ({
                 minute: state.minute--,
                 second : 59
@@ -69,9 +77,9 @@ class App extends React.Component{
     }
     pomodoro(){
         this.setState(state => ({
-            color: 'rgb(240, 91, 86)',
-            block:'rgb(254, 103, 98)',
-            addTask : 'rgb(204,77,73)',
+            color: 'rgb(240,111,174)',
+            block:'rgb(250,125,183)',
+            addTask : 'rgb(206,95,149)',
             minute : 25,
             second : '00'
         }));
@@ -123,19 +131,6 @@ class App extends React.Component{
                             <Col  lg={3}/></Row>
                     </Container>
                 </div>
-                <Container>
-                    <h1>An online Pomodoro Timer to boost your productivity</h1>
-                    <h3>What is Pomofocus?</h3>
-                    <hr/>
-                    <p>
-                        Pomofocus is a customizable pomodoro timer that works
-                        on desktop & mobile browser. The aim of this app is
-                        to help you focus on any task you are working on,
-                        such as study, writing, or coding. This app is inspired
-                        by Pomodoro Technique which is a
-                        time management method developed by Francesco Cirillo.
-                    </p>
-                </Container>
             </div>
         );
     }
