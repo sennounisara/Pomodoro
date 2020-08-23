@@ -1,74 +1,144 @@
 import React from 'react';
 import './App.css';
-import {Container, Form, FormControl, InputGroup, Navbar} from "react-bootstrap";
+import {Container, Form, Navbar} from "react-bootstrap";
 import Button from "react-bootstrap/Button";
-import Nav from "react-bootstrap/Nav";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 
-function App() {
-  return (
-      <div>
+class App extends React.Component{
+    constructor(props){
+        super(props);
+        this.state = {
+            color: 'rgb(240, 91, 86)',
+            block:'rgb(254, 103, 98)',
+            addTask : 'rgb(204,77,73)',
+            minute : 25,
+            second : '00',
+            isStart: true
+        };
 
-          <Navbar style={{backgroundColor : '#ff4c20'}} variant="dark">
-              <Container>
+        this.startBreak= this.startBreak.bind(this);
+        this.pomodoro = this.pomodoro.bind(this);
+        this.longBreak = this.longBreak.bind(this);
+        this.start= this.start.bind(this);
+    }
+    start(){
+        this.setState(state => ({
+            isStart: !state.isStart
+        }));
+        this.timerID = setInterval(
+            () => this.startT(),
+            1000
+        );
+    }
+    startT(){
+        if(!'00'.localeCompare(this.state.second)){
+            this.setState(state => ({
+                minute: state.minute--,
+                second : 59
+            }));
+        }else{
+            if(this.state.second <= 10){
+                this.setState(state => ({
+                    second: '0'+state.second--
+                }));
+            }else{
+                this.setState(state => ({
+                    second: state.second--
+                }));
+            }
+        }
+    }
+    startBreak() {
+        this.setState(state => ({
+            color: 'rgb(76, 166, 169)',
+            block :'rgb(85,185,188)',
+            addTask : 'rgb(64,140,143)',
+            minute : '05',
+            second : '00'
+        }));
+    }
+    longBreak() {
+        this.setState(state => ({
+            color: 'rgb(73, 143, 193)',
+            block :'rgb(80,158,214)',
+            addTask : 'rgb(66,130,175)',
+            minute : 15,
+            second : '00'
+        }));
+    }
+    pomodoro(){
+        this.setState(state => ({
+            color: 'rgb(240, 91, 86)',
+            block:'rgb(254, 103, 98)',
+            addTask : 'rgb(204,77,73)',
+            minute : 25,
+            second : '00'
+        }));
+    }
+    render() {
+        return (
+            <div>
+                <Navbar style={{backgroundColor : this.state.color}} variant="dark">
+                    <Container>
 
-              <Navbar.Brand href="#home">Pomodoro</Navbar.Brand>
-              <Form inline>
-                  <Button variant="outline-light" style={{marginRight:5}}>Report</Button>
-                  <Button variant="outline-light" style={{marginRight:5}}>Setting</Button>
-                  <Button variant="outline-light">Login</Button>
-              </Form>
-              </Container>
-          </Navbar>
+                        <Navbar.Brand href="#home">Pomodoro</Navbar.Brand>
+                        <Form inline>
+                            <Button variant="outline-light" style={{marginRight:5}}>Report</Button>
+                            <Button variant="outline-light" style={{marginRight:5}}>Setting</Button>
+                            <Button variant="outline-light">Login</Button>
+                        </Form>
+                    </Container>
+                </Navbar>
 
-          <div className="App">
-            <Container>
-                <Row>
-                <Col  lg={3}/>
-                <Col  lg={6}>
-                <div className="block">
-                    <Button style={{backgroundColor:'#ff8653',
-                    borderColor: '#ff8653',marginRight: 5}} size="sm">Pomodoro</Button>
-                    <Button
-                        style={{backgroundColor:'#ff8653',
-                            borderColor: '#ff8653',marginRight: 5}} size="sm">Short Break</Button>
-                    <Button style={{backgroundColor:'#ff8653',
-                        borderColor: '#ff8653'}}  size="sm">Long Break</Button>
-                    <p className="timer">05:00</p>
-                    <Button style={{backgroundColor:'#f8f8f8', color:'#ff8653', width:150, borderColor:'white'}} size="lg">
-                        Start
-                    </Button>
+                <div className="App" style={{backgroundColor : this.state.color}}>
+                    <Container>
+                        <Row>
+                            <Col  lg={3}/>
+                            <Col  lg={6}>
+                                <div className="block" style={{backgroundColor : this.state.block}}>
+                                    <Button style={{backgroundColor : this.state.block,
+                                        borderColor: this.state.block,marginRight: 5}} size="sm" onClick={this.pomodoro}>Pomodoro</Button>
+                                    <Button
+                                        style={{backgroundColor : this.state.block,
+                                            borderColor: this.state.block ,marginRight: 5}} size="sm" onClick={this.startBreak}>Short Break</Button>
+                                    <Button style={{backgroundColor : this.state.block,
+                                        borderColor: this.state.block}}  size="sm" onClick={this.longBreak}>Long Break</Button>
+                                    <p className="timer">{this.state.minute}:{this.state.second}</p>
+                                    <Button onClick={this.start} style={{backgroundColor:'#f8f8f8', color:this.state.block, width:150, borderColor:'white'}} size="lg">
+                                        <b>{this.state.isStart ? 'START' : 'STOP'}</b>
+                                    </Button>
+                                </div>
+
+
+                                <h6>Time to work!</h6>
+                                <h4 className="task">Task </h4>
+                                <hr className="bar"/>
+                                <Button
+                                    Button style={{backgroundColor:this.state.addTask,
+                                    borderColor: '#bebebe', borderStyle:'dashed'}} size="lg" block>
+                                    Add Task
+                                </Button>
+                            </Col>
+                            <Col  lg={3}/></Row>
+                    </Container>
                 </div>
-
-
-            <h6>Time to work!</h6>
-            <h4 className="task">Task </h4>
-                <hr className="bar"/>
-            <Button
-                Button style={{backgroundColor:'#dc7648',
-                borderColor: '#bebebe', borderStyle:'dashed'}} size="lg" block>
-                Add Task
-            </Button>
-                </Col>
-                <Col  lg={3}/></Row>
-            </Container>
-        </div>
-          <Container>
-          <h1>An online Pomodoro Timer to boost your productivity</h1>
-          <h3>What is Pomofocus?</h3>
-          <hr/>
-          <p>
-              Pomofocus is a customizable pomodoro timer that works
-              on desktop & mobile browser. The aim of this app is
-              to help you focus on any task you are working on,
-              such as study, writing, or coding. This app is inspired
-              by Pomodoro Technique which is a
-              time management method developed by Francesco Cirillo.
-          </p>
-          </Container>
-      </div>
-  );
+                <Container>
+                    <h1>An online Pomodoro Timer to boost your productivity</h1>
+                    <h3>What is Pomofocus?</h3>
+                    <hr/>
+                    <p>
+                        Pomofocus is a customizable pomodoro timer that works
+                        on desktop & mobile browser. The aim of this app is
+                        to help you focus on any task you are working on,
+                        such as study, writing, or coding. This app is inspired
+                        by Pomodoro Technique which is a
+                        time management method developed by Francesco Cirillo.
+                    </p>
+                </Container>
+            </div>
+        );
+    }
 }
 
 export default App;

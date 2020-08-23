@@ -1,6 +1,5 @@
 .App {
   text-align: center;
-  background-color: #ff4c20;
   padding: 15px 0px;
   color: white;
 }
@@ -8,7 +7,6 @@
   text-align: left;
 }
 .block {
-  background-color: #ff8653;
   padding: 15px 0px;
   margin-bottom: 15px ;
   border-radius: 8px;
