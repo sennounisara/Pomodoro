@@ -4,7 +4,8 @@ import {Container, Form, Navbar} from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
-
+import {About} from './About';
+import {Setting} from './Setting';
 class App extends React.Component{
     constructor(props){
         super(props);
@@ -86,15 +87,14 @@ class App extends React.Component{
     }
     render() {
         return (
-            <div>
-                <Navbar style={{backgroundColor : this.state.color}} variant="dark">
+            <div style={{backgroundColor : this.state.color}}  className="page">
+                <Navbar style={{backgroundColor : this.state.color}} variant="dark" className='shadow-lg'>
                     <Container>
 
                         <Navbar.Brand href="#home">Pomodoro</Navbar.Brand>
                         <Form inline>
-                            <Button variant="outline-light" style={{marginRight:5}}>Report</Button>
-                            <Button variant="outline-light" style={{marginRight:5}}>Setting</Button>
-                            <Button variant="outline-light">Login</Button>
+                            <Setting/>
+                            <About/>
                         </Form>
                     </Container>
                 </Navbar>
